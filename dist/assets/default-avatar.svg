@@ -1,6 +1,0 @@
-<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="64" cy="64" r="64" fill="#e5e7eb"></circle>
-  <circle cx="64" cy="50" r="24" fill="#cbd5e1"></circle>
-  <path d="M24 104c10-18 30-26 40-26s30 8 40 26" fill="#cbd5e1"></path>
-  <title>Default Avatar</title>
-</svg>
