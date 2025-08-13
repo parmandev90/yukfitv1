@@ -13,7 +13,7 @@ const resultPage = {
     const data = JSON.parse(localStorage.getItem('latestRecommendation'));
 
     if (!data) {
-      return 
+      return `
         ${renderNavbar()}
         <section class="result-section">
           <h2>❌ Data tidak ditemukan</h2>
@@ -21,7 +21,7 @@ const resultPage = {
           <a href="#/tes" class="btn red">Kembali ke Tes</a>
         </section>
         ${renderFooter()}
-      ;
+      `;
     }
 
     const genderLabel = data.gender === 'Male' ? 'Laki-laki' : 'Perempuan';
@@ -58,7 +58,7 @@ const resultPage = {
     localStorage.setItem('bmiDescription', bmiDescription);
 
     const genderKey = data.gender === 'Female' ? 'female' : 'male';
-    const figureName = figure-${bmiStatus.toLowerCase()}-${genderKey}.webp;
+    const figureName = `figure-${bmiStatus.toLowerCase()}-${genderKey}.webp`;
 
     const routeMap = {
       'berjalan': 'berjalan',
@@ -79,11 +79,11 @@ const resultPage = {
           const matchedPath = routeMap[nameLower];
 
           if (!matchedPath) {
-            console.warn(⚠️ Rekomendasi tidak dikenali: ${item.name});
-            return <div class="workout-item"><p class="unknown">❌ Rekomendasi tidak dikenal: ${item.name}</p></div>;
+            console.warn(`⚠️ Rekomendasi tidak dikenali: ${item.name}`);
+            return `<div class="workout-item"><p class="unknown">❌ Rekomendasi tidak dikenal: ${item.name}</p></div>`;
           }
 
-          return 
+          return `
             <div class="workout-item">
               <a href="#/latihan/${matchedPath}" class="workout-link">
                 ${item.name} <span class="confidence">(${(item.confidence * 100).toFixed(1)}%)</span>
@@ -94,11 +94,11 @@ const resultPage = {
                 ➕ Simpan
               </button>
             </div>
-          ;
+          `;
         }).join('')
       : '<p class="no-recommendation">Tidak ada rekomendasi tersedia.</p>';
 
-    return 
+    return `
       ${renderNavbar()}
       <section class="result-section" id="result-download">
         <h1>Hasil Rekomendasi Olahraga</h1>
@@ -141,7 +141,7 @@ const resultPage = {
         </div>
       </section>
       ${renderFooter()}
-    ;
+    `;
   },
 
   afterRender: () => {
@@ -161,7 +161,7 @@ const resultPage = {
         const userRef = doc(db, 'users', user.uid);
         const userSnap = await getDoc(userRef);
         const userData = userSnap.data();
-        nameDisplay.textContent = Nama: ${userData.fullName || '-'};
+        nameDisplay.textContent = `Nama: ${userData.fullName || '-'}`;
       } else {
         localStorage.removeItem('latestRecommendation');
         localStorage.removeItem('bmiStatus');
@@ -216,7 +216,7 @@ const resultPage = {
           Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
-            text: ${item.name} berhasil disimpan ke Latihan Saya.,
+            text: `${item.name} berhasil disimpan ke Latihan Saya.`,
             confirmButtonText: 'OK'
           });
         });
@@ -239,7 +239,7 @@ const resultPage = {
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
         pdf.addImage(imgData, 'webp', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(Hasil-BMI-${new Date().toISOString()}.pdf);
+        pdf.save(`Hasil-BMI-${new Date().toISOString()}.pdf`);
 
         downloadBtn.style.display = 'inline-block';
         saveResultBtn.style.display = 'inline-block';
