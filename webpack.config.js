@@ -2,7 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const webpack = require('webpack'); // Tambahkan untuk DefinePlugin
+const webpack = require('webpack');
+
+const BASE_API_FALLBACK = process.env.BASE_API || 'https://yukfitproxy.up.railway.app';
 
 module.exports = {
   mode: 'production',
@@ -18,16 +20,11 @@ module.exports = {
 
   module: {
     rules: [
-      {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      },
+      { test: /\.css$/i, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         type: 'asset/resource',
-        generator: {
-          filename: 'assets/images/[name].[contenthash][ext]',
-        },
+        generator: { filename: 'assets/images/[name].[contenthash][ext]' },
       },
     ],
   },
@@ -40,28 +37,24 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'public/assets', to: 'assets' },
+        { from: 'public/assets', to: 'assets' },   // static assets
+        { from: 'public/_redirects', to: '.' },    // SPA rewrite untuk Netlify
+        // (opsional) { from: 'public/robots.txt', to: '.' },
+        // (opsional) { from: 'public/favicon.ico', to: '.' },
       ],
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-    }),
-    // ✅ Environment variable langsung di-hardcode
+    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
+    // injeksi ENV (mendukung dua nama supaya aman)
     new webpack.DefinePlugin({
-      'process.env.API_BASE_URL': JSON.stringify('http://localhost:8080'),
+      'process.env.BASE_API': JSON.stringify(BASE_API_FALLBACK),
+      'process.env.API_BASE_URL': JSON.stringify(BASE_API_FALLBACK),
     }),
   ],
 
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
+  optimization: { splitChunks: { chunks: 'all' } },
 
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
+    static: { directory: path.join(__dirname, 'dist') },
     compress: true,
     port: 8080,
     open: true,
