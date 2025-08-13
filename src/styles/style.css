@@ -1,0 +1,79 @@
+/* === Reset & baseline === */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* --- ukuran & offset navbar --- */
+:root{
+  /* samakan ± tinggi nyata navbar (DevTools Computed biasanya ~74–76px) */
+  --nav-h-desktop: 74px;
+  --nav-h-mobile: 64px;
+  --nav-h: var(--nav-h-desktop);
+  /* jarak aman konten dari navbar */
+  --nav-offset: calc(var(--nav-h) + 8px);
+
+  /* layout halaman */
+  --content-max: 1200px;                    /* lebar container max */
+  --page-pad-block: clamp(16px, 3vw, 32px); /* padding atas/bawah konten */
+  --page-pad-inline: 16px;                  /* padding kiri/kanan konten */
+}
+
+@media (max-width: 768px){
+  :root{
+    --nav-h: var(--nav-h-mobile);
+    --nav-offset: calc(var(--nav-h) + 8px);
+  }
+}
+
+/* pastikan tinggi minimal navbar konsisten
+   (posisi FIXED/ STICKY tetap set di navbar.css) */
+.navbar{ min-height: var(--nav-h); }
+
+/* #app jadi column layout & didorong turun sesuai tinggi navbar */
+#app{
+  min-height: 100vh;    /* fallback */
+  min-height: 100dvh;   /* modern viewport unit */
+  display: flex;
+  flex-direction: column;
+  /* tambahkan safe-area iOS supaya tidak ketutup notch */
+  padding-top: calc(var(--nav-offset) + env(safe-area-inset-top, 0px));
+}
+
+/* area konten mengisi ruang sisa di atas footer */
+.page{
+  flex: 1;
+  padding-block: var(--page-pad-block);
+}
+
+/* fallback: jika root tiap halaman masih <section> */
+#app > section{
+  flex: 1;
+  padding-block: var(--page-pad-block);
+}
+
+/* center & batasi lebar konten
+   (CATATAN: operator di calc WAJIB pakai spasi) */
+.container{
+  width: min(var(--content-max), calc(100% - 2 * var(--page-pad-inline)));
+  margin-inline: auto;
+}
+
+/* footer tidak mepet */
+.footer{ padding: 16px 0; }
+
+/* contoh 2 kolom (sidebar + konten) */
+.profile-layout{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+}
+@media (max-width: 992px){
+  .profile-layout{ grid-template-columns: 1fr; }
+}
+
+/* Matikan padding lama kalau ada di stylesheet lain */
+main{ padding-top: 0 !important; }

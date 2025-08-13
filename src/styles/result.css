@@ -1,0 +1,208 @@
+/* === SECTION UTAMA === */
+.result-section {
+  max-width: 960px;
+  margin: 4rem auto;
+  padding: 0 1rem 4rem;
+  font-family: 'Inter', sans-serif;
+  padding-top: 88px;
+}
+
+.result-section h1 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 2rem;
+  color: #c62828;
+}
+
+/* === CARD & VISUAL === */
+.result-card {
+  background: #ffffff;
+  padding: 1.8rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.result-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.result-list li {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.bmi-visual {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2rem;
+  background: #fafafa;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 2rem 0;
+}
+
+.bmi-figure img {
+  max-width: 140px;
+  border-radius: 8px;
+}
+
+.bmi-detail {
+  flex: 1;
+  min-width: 250px;
+}
+
+.bmi-info h2 {
+  font-size: 1.6rem;
+  margin: 0 0 0.75rem;
+  color: #111;
+}
+
+.bmi-number {
+  color: #22c55e;
+  font-weight: 700;
+}
+
+.bmi-info p {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.bmi-status {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.bmi-status.normal { background: #22c55e; }
+.bmi-status.kurus { background: #3b82f6; }
+.bmi-status.gemuk { background: #facc15; color: #000; }
+.bmi-status.obesitas { background: #ef4444; }
+
+.bmi-bar {
+  position: relative;
+  height: 10px;
+  background: linear-gradient(to right, #3b82f6 0%, #22c55e 30%, #facc15 65%, #ef4444 100%);
+  border-radius: 999px;
+  margin-top: 1rem;
+}
+
+.bmi-bar-pointer {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 24px;
+  background: #000;
+}
+
+/* === REKOMENDASI === */
+.recommendation h2 {
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  color: #111;
+}
+
+.workout-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.workout-item {
+  background: #fff;
+  border: 2px solid #eee;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.workout-link {
+  font-weight: 600;
+  text-decoration: none;
+  color: #e53935;
+}
+
+.confidence {
+  font-weight: 500;
+  color: #555;
+}
+
+.save-single-btn {
+  background: #ff3c3c;
+  border: none;
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.save-single-btn:hover {
+  background: #e63333;
+}
+
+.no-print {
+  display: none !important;
+}
+
+
+/* === TOMBOL UTAMA === */
+.btn-center {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  margin: 1rem 0.5rem 0;
+  background: #111;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+.btn.green { background: #22c55e; }
+.btn.green:hover { background: #16a34a; }
+
+.btn.download-btn { background: #3b82f6; }
+.btn.download-btn:hover { background: #2563eb; }
+
+.btn.repeat-btn { background: #facc15; color: #000; }
+.btn.repeat-btn:hover { background: #eab308; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .bmi-visual {
+    flex-direction: column;
+    align-items: center;
+  }
+  .workout-list {
+    flex-direction: column;
+  }
+  .workout-item {
+    justify-content: space-between;
+  }
+}

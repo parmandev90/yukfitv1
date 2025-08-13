@@ -1,0 +1,124 @@
+/* === Wrapper umum === */
+.bmi-section {
+  padding: 4rem 1rem;
+  background: #f9f9f9;
+}
+
+.bmi-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* === Form === */
+.bmi-form-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.bmi-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.bmi-subtitle {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.bmi-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bmi-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.bmi-field label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: #333;
+}
+
+.bmi-field input,
+.bmi-field select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.bmi-field input:focus,
+.bmi-field select:focus {
+  outline: none;
+  border-color: #ff3c3c; /* merah hidup */
+}
+
+#submitBtn {
+  width: 100%;
+  background: #ff3c3c;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#submitBtn:hover {
+  background: #e63333;
+}
+
+/* === Tabel BMI === */
+.bmi-table-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  overflow-x: auto;
+}
+
+.bmi-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Pastikan kolom rata */
+}
+
+.bmi-table thead th {
+  background: #000;
+  color: #fff;
+  padding: 0.8rem;
+  text-align: center; /* rata tengah header */
+}
+
+.bmi-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eee;
+  text-align: center; /* rata tengah isi */
+}
+
+.bmi-table tr:hover {
+  background: #f5f5f5;
+}
+
+/* === Responsif === */
+@media (max-width: 768px) {
+  .bmi-container {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,1978 @@
+/* === Reset & baseline === */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* --- ukuran & offset navbar --- */
+:root{
+  /* samakan ± tinggi nyata navbar (DevTools Computed biasanya ~74–76px) */
+  --nav-h-desktop: 74px;
+  --nav-h-mobile: 64px;
+  --nav-h: var(--nav-h-desktop);
+  /* jarak aman konten dari navbar */
+  --nav-offset: calc(var(--nav-h) + 8px);
+
+  /* layout halaman */
+  --content-max: 1200px;                    /* lebar container max */
+  --page-pad-block: clamp(16px, 3vw, 32px); /* padding atas/bawah konten */
+  --page-pad-inline: 16px;                  /* padding kiri/kanan konten */
+}
+
+@media (max-width: 768px){
+  :root{
+    --nav-h: var(--nav-h-mobile);
+    --nav-offset: calc(var(--nav-h) + 8px);
+  }
+}
+
+/* pastikan tinggi minimal navbar konsisten
+   (posisi FIXED/ STICKY tetap set di navbar.css) */
+.navbar{ min-height: var(--nav-h); }
+
+/* #app jadi column layout & didorong turun sesuai tinggi navbar */
+#app{
+  min-height: 100vh;    /* fallback */
+  min-height: 100dvh;   /* modern viewport unit */
+  display: flex;
+  flex-direction: column;
+  /* tambahkan safe-area iOS supaya tidak ketutup notch */
+  padding-top: calc(var(--nav-offset) + env(safe-area-inset-top, 0px));
+}
+
+/* area konten mengisi ruang sisa di atas footer */
+.page{
+  flex: 1;
+  padding-block: var(--page-pad-block);
+}
+
+/* fallback: jika root tiap halaman masih <section> */
+#app > section{
+  flex: 1;
+  padding-block: var(--page-pad-block);
+}
+
+/* center & batasi lebar konten
+   (CATATAN: operator di calc WAJIB pakai spasi) */
+.container{
+  width: min(var(--content-max), calc(100% - 2 * var(--page-pad-inline)));
+  margin-inline: auto;
+}
+
+/* footer tidak mepet */
+.footer{ padding: 16px 0; }
+
+/* contoh 2 kolom (sidebar + konten) */
+.profile-layout{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+}
+@media (max-width: 992px){
+  .profile-layout{ grid-template-columns: 1fr; }
+}
+
+/* Matikan padding lama kalau ada di stylesheet lain */
+main{ padding-top: 0 !important; }
+
+/* === Navbar Umum === */
+.navbar {
+  
+    position: fixed !important;   /* pastikan menang dari rule lain */
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    z-index: 999;
+}
+
+
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px; /* ≈ tinggi navbar desktop */
+}
+
+
+.brand-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+}
+
+.brand-title .red {
+  color: red;
+}
+
+/* === Hamburger === */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  margin-right: 1rem;
+}
+
+/* === Nav Links === */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links a,
+.dropdown-toggle {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.nav-links a:hover,
+.dropdown-toggle:hover {
+  color: red;
+}
+
+.arrow.small-arrow {
+  font-size: 0.6rem;
+  margin-left: 0.25rem;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  list-style: none;
+  padding: 0.5rem 0;
+  z-index: 1000;
+  min-width: 180px;
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #000;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+  background: red;
+  color: #fff;
+}
+
+.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+/* === Tombol Masuk/Profil === */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: red;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav-btn:hover {
+  background: #c62828;
+}
+
+.profile-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff0000;
+}
+
+/* === Dropdown Profil === */
+.profile-menu {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  flex-direction: column;
+  min-width: 200px;
+  z-index: 1001;
+  list-style: none;
+  padding: 0.5rem 0;
+  overflow: hidden;
+}
+
+.profile-wrapper.open .profile-menu {
+  display: flex;
+}
+
+.profile-menu li {
+  list-style: none;
+
+}
+
+.profile-menu li a,
+.profile-menu li button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none !important;
+  border: 0 !important;
+  outline: 0;
+}
+
+.profile-menu li a:hover,
+.profile-menu li button:hover {
+  background: red;
+  color: #fff;
+}
+
+.logout-btn {
+  color: inherit;
+}
+
+
+
+/* ==== NAVBAR MOBILE ==== */
+@media (max-width: 768px){
+  .hamburger{ display:block; order:-1; }
+
+  /* Navbar nempel di atas */
+  .navbar{ position: sticky; top:0; z-index:999; }
+  .navbar-container{ position:relative; }
+
+  /* Panel menu turun tepat di bawah navbar */
+  .nav-links{
+    position:absolute;
+    top:100%;
+    left:0; right:0;
+    display:none;                         /* toggle dengan .nav-active */
+    flex-direction:column;
+    background:#fff;
+    box-shadow:0 6px 16px rgba(0,0,0,.08);
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;         /* biar tidak terlihat “terpotong” */
+    padding-bottom:4px;                   /* spacer kecil */
+    box-sizing:border-box;
+    row-gap:0;                            /* rapat antar item */
+    max-height:calc(100dvh - var(--nav-h, 64px));
+    overflow:auto;                        /* kalau kepanjangan bisa di-scroll */
+    z-index:1000;
+  }
+  .nav-links.nav-active{ display:flex; }
+
+  /* Item utama */
+  .nav-links > li{
+    width:100%;
+    margin:0;
+    border-top:1px solid #eee;
+    box-sizing:border-box;
+  }
+  .nav-links > li:first-child{ border-top:0; }
+  .nav-links > li:last-child{ border-bottom:1px solid #eee; }
+
+  /* Link & tombol dropdown: seragam, lebih rapat */
+  .nav-links > li > a,
+  .nav-links > li > button.dropdown-toggle{
+    display:flex;
+    align-items:center;
+    width:100%;
+    min-height:44px;                      /* ↓ diperkecil (awalnya 52px) */
+    padding:0 14px;                       /* kiri–kanan lebih rapat */
+    line-height:1;
+    background:#fff;
+    color:#111;
+    text-align:left;
+    text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /* Dropdown mengikuti flow kolom (bukan absolut) */
+  .dropdown{ position:static; }
+  .dropdown-menu{
+    position:static;
+    display:none;
+    width:100%;
+    background:#fff;
+    padding:0;
+    margin:0;
+    border-top:1px solid #eee;
+    box-shadow:none;
+  }
+  .dropdown.open .dropdown-menu{ display:block; }
+
+  .dropdown-menu li{ width:100%; }
+  .dropdown-menu li a{
+    display:flex;
+    align-items:center;
+    min-height:40px;                      /* ↓ diperkecil (awalnya 48px) */
+    padding:0 18px;
+    background:#fff;
+    border-bottom:1px solid #eee;
+  }
+  .dropdown-menu li:last-child a{ border-bottom:0; }
+}
+
+
+
+/* === Scroll Lock === */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* DETAIL WORKOUT PAGE */
+
+.detail-workout {
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.7;
+  color: #333;
+}
+
+/* Hero Section */
+.workout-hero {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+}
+
+.workout-hero .hero-img {
+  width: 100%;
+  height: 140%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  color: #fff;
+}
+
+.hero-overlay h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-overlay p {
+  font-size: 1.1rem;
+}
+
+/* Content Section */
+.workout-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.workout-content h2 {
+  font-size: 1.6rem;
+  color: #e53935;
+  margin-top: 2rem;
+}
+
+.workout-content p {
+  margin: 1rem 0;
+}
+
+.workout-content ul,
+.workout-content ol {
+  margin-left: 2rem;
+}
+
+.workout-content li {
+  margin-bottom: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-overlay h1 {
+    font-size: 2rem;
+  }
+
+  .workout-content {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* === Wrapper umum === */
+.bmi-section {
+  padding: 4rem 1rem;
+  background: #f9f9f9;
+}
+
+.bmi-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* === Form === */
+.bmi-form-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.bmi-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.bmi-subtitle {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.bmi-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bmi-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.bmi-field label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: #333;
+}
+
+.bmi-field input,
+.bmi-field select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.bmi-field input:focus,
+.bmi-field select:focus {
+  outline: none;
+  border-color: #ff3c3c; /* merah hidup */
+}
+
+#submitBtn {
+  width: 100%;
+  background: #ff3c3c;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#submitBtn:hover {
+  background: #e63333;
+}
+
+/* === Tabel BMI === */
+.bmi-table-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  overflow-x: auto;
+}
+
+.bmi-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Pastikan kolom rata */
+}
+
+.bmi-table thead th {
+  background: #000;
+  color: #fff;
+  padding: 0.8rem;
+  text-align: center; /* rata tengah header */
+}
+
+.bmi-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eee;
+  text-align: center; /* rata tengah isi */
+}
+
+.bmi-table tr:hover {
+  background: #f5f5f5;
+}
+
+/* === Responsif === */
+@media (max-width: 768px) {
+  .bmi-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === SECTION UTAMA === */
+.result-section {
+  max-width: 960px;
+  margin: 4rem auto;
+  padding: 0 1rem 4rem;
+  font-family: 'Inter', sans-serif;
+  padding-top: 88px;
+}
+
+.result-section h1 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 2rem;
+  color: #c62828;
+}
+
+/* === CARD & VISUAL === */
+.result-card {
+  background: #ffffff;
+  padding: 1.8rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.result-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.result-list li {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.bmi-visual {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2rem;
+  background: #fafafa;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 2rem 0;
+}
+
+.bmi-figure img {
+  max-width: 140px;
+  border-radius: 8px;
+}
+
+.bmi-detail {
+  flex: 1;
+  min-width: 250px;
+}
+
+.bmi-info h2 {
+  font-size: 1.6rem;
+  margin: 0 0 0.75rem;
+  color: #111;
+}
+
+.bmi-number {
+  color: #22c55e;
+  font-weight: 700;
+}
+
+.bmi-info p {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.bmi-status {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+.bmi-status.normal { background: #22c55e; }
+.bmi-status.kurus { background: #3b82f6; }
+.bmi-status.gemuk { background: #facc15; color: #000; }
+.bmi-status.obesitas { background: #ef4444; }
+
+.bmi-bar {
+  position: relative;
+  height: 10px;
+  background: linear-gradient(to right, #3b82f6 0%, #22c55e 30%, #facc15 65%, #ef4444 100%);
+  border-radius: 999px;
+  margin-top: 1rem;
+}
+
+.bmi-bar-pointer {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 24px;
+  background: #000;
+}
+
+/* === REKOMENDASI === */
+.recommendation h2 {
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  color: #111;
+}
+
+.workout-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.workout-item {
+  background: #fff;
+  border: 2px solid #eee;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.workout-link {
+  font-weight: 600;
+  text-decoration: none;
+  color: #e53935;
+}
+
+.confidence {
+  font-weight: 500;
+  color: #555;
+}
+
+.save-single-btn {
+  background: #ff3c3c;
+  border: none;
+  color: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.save-single-btn:hover {
+  background: #e63333;
+}
+
+.no-print {
+  display: none !important;
+}
+
+
+/* === TOMBOL UTAMA === */
+.btn-center {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  margin: 1rem 0.5rem 0;
+  background: #111;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+.btn.green { background: #22c55e; }
+.btn.green:hover { background: #16a34a; }
+
+.btn.download-btn { background: #3b82f6; }
+.btn.download-btn:hover { background: #2563eb; }
+
+.btn.repeat-btn { background: #facc15; color: #000; }
+.btn.repeat-btn:hover { background: #eab308; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .bmi-visual {
+    flex-direction: column;
+    align-items: center;
+  }
+  .workout-list {
+    flex-direction: column;
+  }
+  .workout-item {
+    justify-content: space-between;
+  }
+}
+
+/* === RESET BODY === */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f9f9f9;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* === HERO === */
+  .hero {
+    background-size: cover;
+    background-position: center;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    color: #fff;
+    padding-top: 80px;
+    
+  }
+  
+  .hero .overlay {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 3rem 2rem;
+    width: 100%;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .cta-buttons .btn {
+    padding: 12px 28px;
+    margin: 8px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s ease;
+  }
+  
+  .cta-buttons .red {
+    background: #e53935;
+    color: #fff;
+  }
+  
+  .cta-buttons .white {
+    background: #fff;
+    color: #333;
+  }
+  
+  .cta-buttons .btn:hover {
+    filter: brightness(90%);
+  }
+  
+  /* === WHY HEALTHY SECTION === */
+  .why-healthy-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 4rem 2rem;
+  }
+  
+  .why-healthy-section .image-container {
+    flex: 1 1 40%;
+    max-width: 400px;
+  }
+  
+  .why-healthy-section img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+  
+  .why-healthy-text {
+    flex: 1 1 50%;
+    max-width: 600px;
+  }
+  
+  .why-healthy-text h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #111;
+  }
+  
+  .why-healthy-text p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #444;
+  }
+  
+  .why-healthy-text p span {
+    color: #e53935;
+    font-weight: bold;
+  }
+  
+  /* === WORKOUT SECTION === */
+  .workout-section {
+    padding: 4rem 2rem;
+    text-align: center;
+    background: #fff;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #111;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+  
+  .workout-card {
+    display: block;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    overflow: hidden;
+    max-width: 320px;
+    text-align: left;
+    position: relative;
+    will-change: transform;
+  }
+  
+  
+  .workout-card:hover {
+    transform: translateY(-18px) scale(1.0) rotateZ(-0.5deg);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+  z-index: 10;
+  }
+  
+  .workout-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .icon-box {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #e53935;
+    color: #fff;
+    padding: 8px;
+    font-size: 1.4rem;
+    border-radius: 8px;
+  }
+  
+  .workout-card h3 {
+    margin: 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  
+  .workout-card p {
+    margin: 0 1rem 1rem;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  .read-more {
+    display: inline-block;
+    margin: 0 1rem 1.5rem;
+    color: #e53935;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .read-more:hover {
+    text-decoration: underline;
+  }
+  
+  /* === TIPS SECTION === */
+  .tips-section {
+    padding: 4rem 2rem;
+    background: #f9f9f9;
+    text-align: center;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+  
+  .tips-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+  
+  .tips-card {
+    display: block;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    overflow: hidden;
+    max-width: 320px;
+    text-align: left;
+    position: relative;
+    will-change: transform;
+  }
+  
+  .tips-card:hover {
+    transform: translateY(-18px) scale(1.0) rotateZ(0.5deg);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    z-index: 10;
+  }
+  
+  .tips-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  .tips-card h3 {
+    margin: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .tips-card p {
+    margin: 0 1rem 1rem;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  .tips-link {
+    display: inline-block;
+    margin: 0 1rem 1.5rem;
+    color: #e53935;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .tips-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .why-healthy-section {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .why-healthy-text {
+      text-align: center;
+    }
+  
+    .card-container,
+    .tips-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+.footer {
+    background: #111;
+    color: #eee;
+    padding: 2rem 1rem 1rem;
+    text-align: center;
+  }
+  
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  
+  .footer-brand h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  
+  .footer-brand .red {
+    color: red;
+  }
+  
+  .footer-brand p {
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+  
+  .footer-links h4,
+  .footer-social h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #fff;
+  }
+  
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links ul li {
+    margin: 0.3rem 0;
+  }
+  
+  .footer-links ul li a {
+    text-decoration: none;
+    color: #ccc;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-links ul li a:hover {
+    color: red;
+  }
+  
+  .footer-social .social-icons a {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: #ccc;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-social .social-icons a:hover {
+    color: red;
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid #333;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    font-size: 0.85rem;
+    color: #888;
+  }
+  .footer-test {
+    color: #ff0505;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footer-links,
+    .footer-social {
+      margin-top: 1rem;
+    }
+  }
+  
+/* === RESET === */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden; /* ✅ Hindari scroll horizontal */
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* === HEADER GENERAL === */
+.tips-header {
+  background: #e53935; /* merah cerah */
+  color: #fff;
+  text-align: center;
+  padding: 4rem 1rem 3rem;
+  box-sizing: border-box;
+  padding-top: 80px;
+}
+
+.tips-header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+}
+
+.tips-header p {
+  margin-top: 1rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* === TIPS CONTAINER === */
+.tips-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  box-sizing: border-box;
+  overflow-x: hidden; /* ✅ Hindari scroll horizontal */
+}
+
+/* === TIPS CARD === */
+.tips-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  flex: 1 1 300px;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.tips-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+}
+
+.tips-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.tips-content {
+  padding: 1.2rem 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.tips-content h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.tips-content p {
+  margin: 0 0 1rem;
+  flex: 1;
+  word-break: break-word;
+}
+
+.tips-link {
+  display: inline-block;
+  color: #e53935;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.tips-link:hover {
+  text-decoration: underline;
+}
+
+/* === DETAIL PAGE === */
+.tips-detail {
+  max-width: 960px;
+  margin: 3rem auto;
+  padding: 0 1rem 4rem;
+  box-sizing: border-box;
+  overflow-x: hidden; /* ✅ Hindari scroll horizontal */
+}
+
+.tips-detail-img {
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tips-detail-img img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Content in detail */
+.tips-detail section {
+  margin-bottom: 2rem;
+}
+
+.tips-detail h2 {
+  font-size: 1.6rem;
+  color: #e53935;
+  margin-top: 2rem;
+}
+
+.tips-detail p {
+  margin: 1rem 0;
+}
+
+.tips-detail ul,
+.tips-detail ol {
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+}
+
+.tips-detail li {
+  margin-bottom: 0.75rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #e53935;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+.video-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.video-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 1rem;
+  transition: transform 0.3s;
+}
+
+.video-card:hover {
+  transform: translateY(-5px);
+}
+
+.video-card iframe {
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+}
+
+.video-card h3 {
+  margin-top: 0.8rem;
+  font-size: 1.1rem;
+  color: #e63946;
+}
+
+.video-card p {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .tips-header h1 {
+    font-size: 2rem;
+  }
+
+  .tips-header p {
+    font-size: 0.95rem;
+  }
+
+  .tips-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tips-card {
+    max-width: 100%;
+  }
+
+  .tips-card img {
+    height: 180px;
+  }
+
+  .tips-content {
+    padding: 1rem;
+  }
+
+  .tips-detail {
+    padding: 0 1rem 3rem;
+  }
+
+  .tips-detail-img img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* === Backdrop === */
+.auth-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+  }
+  
+  .auth-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+  }
+  
+  .auth-modal-content {
+    position: relative;
+    z-index: 2;
+    max-width: 380px;
+    margin: 10% auto;
+    background: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: fadeScale 0.3s ease;
+  }
+  
+  @keyframes fadeScale {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .auth-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .auth-modal-content h2 {
+    margin: 0 0 0.5rem;
+  }
+  
+  .auth-subtitle {
+    margin-bottom: 1.5rem;
+    color: #666;
+    font-size: 0.95rem;
+  }
+  
+  .auth-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+  .auth-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .auth-modal.hidden {
+    display: none;
+  }
+  
+  .no-scroll {
+    overflow: hidden;
+  }
+  .auth-email-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .auth-input {
+    padding: 0.75rem 1rem;
+    width: 92%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s, box-shadow 0.3s;
+  }
+  body.no-scroll {
+    overflow: hidden;
+  }
+  
+  .auth-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background: rgba(0,0,0,0.5);
+  }
+  
+  .auth-modal.hidden {
+    display: none;
+  }
+  
+  .auth-modal-content {
+    background: #fff;
+    max-width: 400px;
+    width: 90%;
+    border-radius: 8px;
+    padding: 2rem;
+    position: relative;
+    text-align: center;
+  }
+  
+  
+  .auth-input:focus {
+    outline: none;
+    border-color: #2196f3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+  }
+  
+  .auth-btn.email-btn {
+    background: #007bff;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .auth-btn.email-btn:hover {
+    background: #0069d9;
+  }
+  
+  
+  .google-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+  }
+  
+  .google-btn:hover {
+    background: #f5f5f5;
+  }
+  
+  .email-btn {
+    background: #007bff;
+    color: #fff;
+  }
+  
+  .email-btn:hover {
+    background: #0069d9;
+  }
+  
+  .auth-btn img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  @media (max-width: 500px) {
+    .auth-modal-content {
+      margin: 20% auto;
+      max-width: 90%;
+    }
+  }
+  
+/* ===========================
+   Profile Sidebar
+=========================== */
+
+.myprofile-page {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  
+}
+
+.myprofile-wrapper {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  gap: 2rem;
+}
+
+.myprofile-sidebar {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  flex: 0 0 250px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.myprofile-user {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.myprofile-avatar {
+  width: 60px;
+  height: 60px;
+  background: #e63946;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+
+.myprofile-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.2rem 0;
+}
+
+.myprofile-email {
+  font-size: 0.9rem;
+  color: #e71111;
+}
+
+.myprofile-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.myprofile-menu a {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.myprofile-menu a.active,
+.myprofile-menu a:hover {
+  background: #e63946;
+  color: #fff;
+}
+
+/* ===========================
+   Main Content
+=========================== */
+
+.myprofile-main {
+  background: #fff;
+  border-radius: 12px;
+  flex: 1;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.myprofile-main h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.myprofile-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.myprofile-field label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.myprofile-input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.myprofile-input:disabled,
+.myprofile-input[readonly] {
+  background: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.myprofile-input:focus {
+  outline: none;
+  border-color: #222;
+}
+
+.myprofile-edit-btn,
+.myprofile-save-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: #e63946;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.myprofile-edit-btn:hover,
+.myprofile-save-btn:hover {
+  background: #b02a37;
+}
+
+/* ===========================
+   Tersimpan Card Layout
+=========================== */
+
+.tersimpan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tersimpan-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.tersimpan-card::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 100%;
+  background: #e63946;
+  left: 0;
+  top: 0;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.tersimpan-info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  color: #333;
+}
+
+.tersimpan-info div {
+  flex: 1 1 120px;
+}
+
+.tersimpan-bmi {
+  margin-top: 0.5rem;
+}
+
+.tersimpan-bmi strong {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.tersimpan-bmi p {
+  margin: 0.5rem 0 0;
+  color: #555;
+}
+
+.tersimpan-date {
+  background: #f1f1f1;
+  color: red;
+  font-size: 0.8rem;
+  border-radius: 50px;
+  padding: 0.3rem 0.8rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.delete-tersimpan {
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.delete-tersimpan:hover {
+  background: #b02a37;
+}
+
+/* ===========================
+   Latihan Card Layout
+=========================== */
+
+.latihan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.latihan-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  position: relative;
+}
+
+.latihan-card::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 100%;
+  background: red;
+  left: 0;
+  top: 0;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.latihan-info {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.confidence {
+  color: #1d3557;
+  font-weight: 500;
+}
+
+.latihan-date {
+  font-size: 0.85rem;
+  color: red;
+  background: #f1f1f1;
+  border-radius: 50px;
+  padding: 0.3rem 0.8rem;
+  display: inline-block;
+}
+.detail-latihan{
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+
+.delete-latihan {
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.delete-latihan:hover {
+  background: red;
+}
+
+.myprofile-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+
+  /* Border lingkaran */
+  border: 2px solid #ffffff; /* contoh: putih */
+  box-shadow: 0 0 0 2px #ff0000; /* opsional: garis tepi warna lain */
+}
+
+/* ===========================
+   Responsive Cards & Layout
+=========================== */
+/* ===========================
+   Responsive Cards & Layout
+   Final Fix Tersimpan Layout
+=========================== */
+
+@media (max-width: 768px) {
+  .myprofile-wrapper {
+    flex-direction: column;
+    gap: 0;
+    padding: 0 1rem;  /* Tambah padding agar tidak mentok layar */
+  }
+
+  .myprofile-sidebar {
+    display: none;
+  }
+
+  .myprofile-main {
+    width: 100%;
+    max-width: 500px;   /* Batas max agar konten tidak terlalu lebar */
+    margin: 0 auto;     /* Center di layar */
+    box-sizing: border-box;
+  }
+
+  .tersimpan-card {
+    padding: 1rem 1.2rem;
+    max-width: 500px;
+    margin: 0 auto;     /* Center di layar */
+  }
+
+  .latihan-card {
+    padding: 1rem 1.2rem;
+    max-width: 500px;
+    margin: 0 auto;     /* Center di layar */
+  }
+
+  .tersimpan-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tersimpan-info div {
+    flex: none;
+    width: 100%;
+    display: block;
+  }
+}
+

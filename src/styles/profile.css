@@ -1,0 +1,380 @@
+/* ===========================
+   Profile Sidebar
+=========================== */
+
+.myprofile-page {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  
+}
+
+.myprofile-wrapper {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  gap: 2rem;
+}
+
+.myprofile-sidebar {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  flex: 0 0 250px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.myprofile-user {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.myprofile-avatar {
+  width: 60px;
+  height: 60px;
+  background: #e63946;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+}
+
+.myprofile-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.2rem 0;
+}
+
+.myprofile-email {
+  font-size: 0.9rem;
+  color: #e71111;
+}
+
+.myprofile-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.myprofile-menu a {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.myprofile-menu a.active,
+.myprofile-menu a:hover {
+  background: #e63946;
+  color: #fff;
+}
+
+/* ===========================
+   Main Content
+=========================== */
+
+.myprofile-main {
+  background: #fff;
+  border-radius: 12px;
+  flex: 1;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.myprofile-main h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.myprofile-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.myprofile-field label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.myprofile-input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.myprofile-input:disabled,
+.myprofile-input[readonly] {
+  background: #f0f0f0;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.myprofile-input:focus {
+  outline: none;
+  border-color: #222;
+}
+
+.myprofile-edit-btn,
+.myprofile-save-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: #e63946;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.myprofile-edit-btn:hover,
+.myprofile-save-btn:hover {
+  background: #b02a37;
+}
+
+/* ===========================
+   Tersimpan Card Layout
+=========================== */
+
+.tersimpan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tersimpan-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.tersimpan-card::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 100%;
+  background: #e63946;
+  left: 0;
+  top: 0;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.tersimpan-info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  color: #333;
+}
+
+.tersimpan-info div {
+  flex: 1 1 120px;
+}
+
+.tersimpan-bmi {
+  margin-top: 0.5rem;
+}
+
+.tersimpan-bmi strong {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.tersimpan-bmi p {
+  margin: 0.5rem 0 0;
+  color: #555;
+}
+
+.tersimpan-date {
+  background: #f1f1f1;
+  color: red;
+  font-size: 0.8rem;
+  border-radius: 50px;
+  padding: 0.3rem 0.8rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.delete-tersimpan {
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.delete-tersimpan:hover {
+  background: #b02a37;
+}
+
+/* ===========================
+   Latihan Card Layout
+=========================== */
+
+.latihan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.latihan-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  position: relative;
+}
+
+.latihan-card::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 100%;
+  background: red;
+  left: 0;
+  top: 0;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.latihan-info {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.confidence {
+  color: #1d3557;
+  font-weight: 500;
+}
+
+.latihan-date {
+  font-size: 0.85rem;
+  color: red;
+  background: #f1f1f1;
+  border-radius: 50px;
+  padding: 0.3rem 0.8rem;
+  display: inline-block;
+}
+.detail-latihan{
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+
+.delete-latihan {
+  align-self: flex-start;
+  padding: 0.5rem 1.2rem;
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.delete-latihan:hover {
+  background: red;
+}
+
+.myprofile-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+
+  /* Border lingkaran */
+  border: 2px solid #ffffff; /* contoh: putih */
+  box-shadow: 0 0 0 2px #ff0000; /* opsional: garis tepi warna lain */
+}
+
+/* ===========================
+   Responsive Cards & Layout
+=========================== */
+/* ===========================
+   Responsive Cards & Layout
+   Final Fix Tersimpan Layout
+=========================== */
+
+@media (max-width: 768px) {
+  .myprofile-wrapper {
+    flex-direction: column;
+    gap: 0;
+    padding: 0 1rem;  /* Tambah padding agar tidak mentok layar */
+  }
+
+  .myprofile-sidebar {
+    display: none;
+  }
+
+  .myprofile-main {
+    width: 100%;
+    max-width: 500px;   /* Batas max agar konten tidak terlalu lebar */
+    margin: 0 auto;     /* Center di layar */
+    box-sizing: border-box;
+  }
+
+  .tersimpan-card {
+    padding: 1rem 1.2rem;
+    max-width: 500px;
+    margin: 0 auto;     /* Center di layar */
+  }
+
+  .latihan-card {
+    padding: 1rem 1.2rem;
+    max-width: 500px;
+    margin: 0 auto;     /* Center di layar */
+  }
+
+  .tersimpan-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tersimpan-info div {
+    flex: none;
+    width: 100%;
+    display: block;
+  }
+}

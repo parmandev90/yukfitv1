@@ -1,0 +1,299 @@
+/* === Navbar Umum === */
+.navbar {
+  
+    position: fixed !important;   /* pastikan menang dari rule lain */
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    z-index: 999;
+}
+
+
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px; /* ≈ tinggi navbar desktop */
+}
+
+
+.brand-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+}
+
+.brand-title .red {
+  color: red;
+}
+
+/* === Hamburger === */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  margin-right: 1rem;
+}
+
+/* === Nav Links === */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links a,
+.dropdown-toggle {
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.nav-links a:hover,
+.dropdown-toggle:hover {
+  color: red;
+}
+
+.arrow.small-arrow {
+  font-size: 0.6rem;
+  margin-left: 0.25rem;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  list-style: none;
+  padding: 0.5rem 0;
+  z-index: 1000;
+  min-width: 180px;
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #000;
+  transition: all 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+  background: red;
+  color: #fff;
+}
+
+.dropdown.open .dropdown-menu {
+  display: block;
+}
+
+/* === Tombol Masuk/Profil === */
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: red;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.nav-btn:hover {
+  background: #c62828;
+}
+
+.profile-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff0000;
+}
+
+/* === Dropdown Profil === */
+.profile-menu {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  flex-direction: column;
+  min-width: 200px;
+  z-index: 1001;
+  list-style: none;
+  padding: 0.5rem 0;
+  overflow: hidden;
+}
+
+.profile-wrapper.open .profile-menu {
+  display: flex;
+}
+
+.profile-menu li {
+  list-style: none;
+
+}
+
+.profile-menu li a,
+.profile-menu li button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none !important;
+  border: 0 !important;
+  outline: 0;
+}
+
+.profile-menu li a:hover,
+.profile-menu li button:hover {
+  background: red;
+  color: #fff;
+}
+
+.logout-btn {
+  color: inherit;
+}
+
+
+
+/* ==== NAVBAR MOBILE ==== */
+@media (max-width: 768px){
+  .hamburger{ display:block; order:-1; }
+
+  /* Navbar nempel di atas */
+  .navbar{ position: sticky; top:0; z-index:999; }
+  .navbar-container{ position:relative; }
+
+  /* Panel menu turun tepat di bawah navbar */
+  .nav-links{
+    position:absolute;
+    top:100%;
+    left:0; right:0;
+    display:none;                         /* toggle dengan .nav-active */
+    flex-direction:column;
+    background:#fff;
+    box-shadow:0 6px 16px rgba(0,0,0,.08);
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;         /* biar tidak terlihat “terpotong” */
+    padding-bottom:4px;                   /* spacer kecil */
+    box-sizing:border-box;
+    row-gap:0;                            /* rapat antar item */
+    max-height:calc(100dvh - var(--nav-h, 64px));
+    overflow:auto;                        /* kalau kepanjangan bisa di-scroll */
+    z-index:1000;
+  }
+  .nav-links.nav-active{ display:flex; }
+
+  /* Item utama */
+  .nav-links > li{
+    width:100%;
+    margin:0;
+    border-top:1px solid #eee;
+    box-sizing:border-box;
+  }
+  .nav-links > li:first-child{ border-top:0; }
+  .nav-links > li:last-child{ border-bottom:1px solid #eee; }
+
+  /* Link & tombol dropdown: seragam, lebih rapat */
+  .nav-links > li > a,
+  .nav-links > li > button.dropdown-toggle{
+    display:flex;
+    align-items:center;
+    width:100%;
+    min-height:44px;                      /* ↓ diperkecil (awalnya 52px) */
+    padding:0 14px;                       /* kiri–kanan lebih rapat */
+    line-height:1;
+    background:#fff;
+    color:#111;
+    text-align:left;
+    text-decoration:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /* Dropdown mengikuti flow kolom (bukan absolut) */
+  .dropdown{ position:static; }
+  .dropdown-menu{
+    position:static;
+    display:none;
+    width:100%;
+    background:#fff;
+    padding:0;
+    margin:0;
+    border-top:1px solid #eee;
+    box-shadow:none;
+  }
+  .dropdown.open .dropdown-menu{ display:block; }
+
+  .dropdown-menu li{ width:100%; }
+  .dropdown-menu li a{
+    display:flex;
+    align-items:center;
+    min-height:40px;                      /* ↓ diperkecil (awalnya 48px) */
+    padding:0 18px;
+    background:#fff;
+    border-bottom:1px solid #eee;
+  }
+  .dropdown-menu li:last-child a{ border-bottom:0; }
+}
+
+
+
+/* === Scroll Lock === */
+body.no-scroll {
+  overflow: hidden;
+}
